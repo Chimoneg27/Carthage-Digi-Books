@@ -35,8 +35,8 @@ export const submitOrder = createServerFn({ method: "POST" })
       payment_reference: data.payment_reference,
       notes: data.notes ?? null,
       product: "The Online Income Playbook",
-      amount_cents: 2900,
-      currency: "USD",
+      amount_cents: 15000,
+      currency: "ZAR",
     });
     if (error) throw new Error(error.message);
     return { ok: true };
