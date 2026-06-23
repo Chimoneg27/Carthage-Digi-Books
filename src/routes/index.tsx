@@ -1,32 +1,32 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import {
   ArrowRight,
   CheckCircle2,
   Mail,
-  Copy,
   Zap,
   Target,
   LineChart,
   ShieldCheck,
+  Lock,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import ebookHero from "@/assets/ebook-hero.jpg";
 import { Toaster } from "@/components/ui/sonner";
-import { submitLead, submitOrder } from "@/lib/leads.functions";
+import { submitLead, startPayfastCheckout } from "@/lib/leads.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Lumen — The Online Income Playbook" },
+      { title: "Carthage Digi Books — The Online Income Playbook" },
       {
         name: "description",
         content:
-          "A practical, no-fluff playbook on how to make money online. From first rand to consistent monthly income.",
+          "A practical, no-fluff playbook on how to make money online. From first rand to consistent monthly income. Secure checkout via PayFast.",
       },
-      { property: "og:title", content: "Lumen — The Online Income Playbook" },
+      { property: "og:title", content: "Carthage Digi Books — The Online Income Playbook" },
       {
         property: "og:description",
         content: "A practical, no-fluff playbook on how to make money online.",
@@ -37,16 +37,25 @@ export const Route = createFileRoute("/")({
 });
 
 const PRICE = "R150";
-
-const BANK = {
-  name: "Lumen (Pty) Ltd",
-  bank: "Your Bank Name",
-  account: "0000 0000 00",
-  branch: "000000",
-  reference: "Your email address",
-};
+const BRAND = "Carthage Digi Books";
 
 function Landing() {
+  // Friendly toast when the user returns from PayFast.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const purchase = params.get("purchase");
+    if (purchase === "success") {
+      toast.success("Payment successful — your download will hit your inbox shortly.");
+    } else if (purchase === "cancelled") {
+      toast.error("Payment cancelled. You can try again whenever you're ready.");
+    }
+    if (purchase) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("purchase");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, []);
+
   return (
     <main className="relative overflow-x-hidden">
       <Toaster theme="light" position="top-center" richColors />
@@ -64,7 +73,7 @@ function Nav() {
   return (
     <header className="relative z-20 mx-auto flex max-w-6xl items-center justify-between px-6 pt-6">
       <a href="#top" className="flex items-center gap-2">
-        <img src={logo} alt="Lumen" className="h-7 w-auto" width={120} height={28} />
+        <img src={logo} alt={BRAND} className="h-8 w-auto" width={160} height={32} />
       </a>
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
         <a href="#inside" className="transition hover:text-foreground">What's inside</a>
@@ -169,37 +178,36 @@ function Inside() {
 }
 
 function Checkout() {
-  const fetchOrder = useServerFn(submitOrder);
-  const router = useRouter();
+  const fetchCheckout = useServerFn(startPayfastCheckout);
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const [payfast, setPayfast] = useState<{
+    action: string;
+    fields: Record<string, string>;
+  } | null>(null);
+
+  // Auto-submit the hidden PayFast form once we have the signed payload.
+  useEffect(() => {
+    if (payfast && formRef.current) formRef.current.submit();
+  }, [payfast]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     setSubmitting(true);
     try {
-      await fetchOrder({
+      const res = await fetchCheckout({
         data: {
           full_name: String(form.get("full_name") ?? ""),
           email: String(form.get("email") ?? ""),
-          payment_reference: String(form.get("payment_reference") ?? ""),
-          notes: String(form.get("notes") ?? ""),
         },
       });
-      setDone(true);
-      toast.success("Order received — we'll email your download within 12 hours.");
-      router.invalidate();
+      toast.success("Redirecting you to PayFast…");
+      setPayfast(res);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong.");
-    } finally {
       setSubmitting(false);
     }
-  }
-
-  function copy(text: string, label: string) {
-    navigator.clipboard.writeText(text);
-    toast.success(`${label} copied`);
   }
 
   return (
@@ -210,90 +218,64 @@ function Checkout() {
         </p>
         <h2 className="text-4xl md:text-5xl">One payment. Lifetime access.</h2>
         <p className="mt-4 text-muted-foreground">
-          Transfer {PRICE} to the account below, then drop your details — we'll email your PDF + EPUB
-          within 12 hours.
+          Secure checkout via PayFast — card, instant EFT, SnapScan, or Zapper.
+          Your download link is emailed the moment payment clears.
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Bank details */}
+      <div className="grid gap-6 md:grid-cols-[1.1fr_1fr]">
+        {/* Order summary */}
         <div className="card-flat p-8">
           <div className="mb-6 flex items-baseline justify-between border-b border-border pb-5">
-            <h3 className="text-lg font-medium">Bank transfer</h3>
+            <h3 className="text-lg font-medium">The Online Income Playbook</h3>
             <span className="font-mono text-3xl">{PRICE}</span>
           </div>
-          <dl className="space-y-4 text-sm">
+          <ul className="space-y-3 text-sm text-muted-foreground">
             {[
-              ["Account name", BANK.name],
-              ["Bank", BANK.bank],
-              ["Account number", BANK.account],
-              ["Branch code", BANK.branch],
-              ["Reference", BANK.reference],
-            ].map(([label, value]) => (
-              <div key={label} className="flex items-center justify-between gap-4">
-                <dt className="font-mono text-[0.7rem] uppercase tracking-wider text-muted-foreground">
-                  {label}
-                </dt>
-                <dd className="flex items-center gap-2 font-mono">
-                  <span>{value}</span>
-                  <button
-                    type="button"
-                    onClick={() => copy(value, label)}
-                    className="text-muted-foreground transition hover:text-foreground"
-                    aria-label={`Copy ${label}`}
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                  </button>
-                </dd>
-              </div>
+              "180 pages, PDF + EPUB",
+              "Lifetime access — re-download anytime",
+              "Free updates as the book evolves",
+              "One purchase per email",
+            ].map((item) => (
+              <li key={item} className="flex items-start gap-3">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={1.5} />
+                <span>{item}</span>
+              </li>
             ))}
-          </dl>
-          <p className="mt-6 rounded-lg bg-surface p-4 text-xs text-muted-foreground">
-            Use your <strong className="text-foreground">email address</strong> as the payment
-            reference so we can match your transfer.
-          </p>
+          </ul>
+          <div className="mt-8 flex items-center gap-2 rounded-lg bg-surface p-4 text-xs text-muted-foreground">
+            <Lock className="h-3.5 w-3.5" />
+            <span>
+              Payments processed securely by <strong className="text-foreground">PayFast</strong>.
+              We never see your card details.
+            </span>
+          </div>
         </div>
 
-        {/* Order form */}
+        {/* Checkout form */}
         <div className="card-flat p-8">
-          {done ? (
-            <div className="flex h-full flex-col items-center justify-center text-center">
-              <CheckCircle2 className="mb-4 h-12 w-12" strokeWidth={1.5} />
-              <h3 className="text-xl font-medium">Order received</h3>
-              <p className="mt-3 max-w-xs text-sm text-muted-foreground">
-                Once we confirm your transfer, your download links will hit your inbox within 12 hours.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <h3 className="text-lg font-medium">Confirm your order</h3>
-              <Field name="full_name" label="Full name" placeholder="Jane Doe" required />
-              <Field name="email" type="email" label="Email" placeholder="you@email.com" required />
-              <Field
-                name="payment_reference"
-                label="Payment reference"
-                placeholder="The reference you used"
-                required
-              />
-              <div>
-                <label className="mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-                  Notes (optional)
-                </label>
-                <textarea
-                  name="notes"
-                  rows={3}
-                  maxLength={500}
-                  className="w-full rounded-lg border border-border bg-input/40 px-4 py-3 text-sm outline-none transition focus:border-foreground"
-                  placeholder="Anything we should know?"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="btn-primary w-full px-6 py-3.5 text-sm disabled:opacity-50"
-              >
-                {submitting ? "Submitting…" : "I've sent the payment"}
-              </button>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <h3 className="text-lg font-medium">Your details</h3>
+            <Field name="full_name" label="Full name" placeholder="Jane Doe" required />
+            <Field name="email" type="email" label="Email" placeholder="you@email.com" required />
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-primary w-full px-6 py-3.5 text-sm disabled:opacity-50"
+            >
+              {submitting ? "Redirecting…" : `Pay ${PRICE} with PayFast`}
+            </button>
+            <p className="text-center text-[0.7rem] text-muted-foreground">
+              You'll be redirected to PayFast to complete your purchase.
+            </p>
+          </form>
+
+          {/* Hidden auto-submit form to PayFast */}
+          {payfast && (
+            <form ref={formRef} action={payfast.action} method="POST" className="hidden">
+              {Object.entries(payfast.fields).map(([k, v]) => (
+                <input key={k} type="hidden" name={k} value={v} />
+              ))}
             </form>
           )}
         </div>
@@ -392,8 +374,8 @@ function Footer() {
   return (
     <footer className="border-t border-border px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-xs text-muted-foreground md:flex-row">
-        <img src={logo} alt="Lumen" className="h-5 w-auto opacity-70" width={84} height={20} />
-        <p className="font-mono">© {new Date().getFullYear()} Lumen. All rights reserved.</p>
+        <img src={logo} alt={BRAND} className="h-6 w-auto opacity-70" width={120} height={24} />
+        <p className="font-mono">© {new Date().getFullYear()} {BRAND}. All rights reserved.</p>
       </div>
     </footer>
   );
