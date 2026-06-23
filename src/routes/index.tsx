@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Lock,
 } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/carthage-logo-trimmed.png";
 import ebookHero from "@/assets/ebook-hero.jpg";
 import { Toaster } from "@/components/ui/sonner";
 import { submitLead, startPayfastCheckout } from "@/lib/leads.functions";
@@ -73,7 +73,7 @@ function Nav() {
   return (
     <header className="relative z-20 mx-auto flex max-w-6xl items-center justify-between px-6 pt-6">
       <a href="#top" className="flex items-center gap-2">
-        <img src={logo} alt={BRAND} className="h-8 w-auto" width={160} height={32} />
+        <img src={logo} alt={BRAND} className="h-12 w-auto md:h-14" width={440} height={56} />
       </a>
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
         <a href="#inside" className="transition hover:text-foreground">What's inside</a>
@@ -374,7 +374,7 @@ function Footer() {
   return (
     <footer className="border-t border-border px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-xs text-muted-foreground md:flex-row">
-        <img src={logo} alt={BRAND} className="h-6 w-auto opacity-70" width={120} height={24} />
+        <img src={logo} alt={BRAND} className="h-8 w-auto opacity-70" width={240} height={32} />
         <p className="font-mono">© {new Date().getFullYear()} {BRAND}. All rights reserved.</p>
       </div>
     </footer>
