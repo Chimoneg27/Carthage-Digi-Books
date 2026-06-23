@@ -77,14 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "carthagedigibooks" },
+      { name: "description", content: "Digital Income Hub is a single-page website for selling digital products, starting with an ebook on making money online." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "carthagedigibooks" },
+      { property: "og:description", content: "Digital Income Hub is a single-page website for selling digital products, starting with an ebook on making money online." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "carthagedigibooks" },
+      { name: "twitter:description", content: "Digital Income Hub is a single-page website for selling digital products, starting with an ebook on making money online." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/493d850f-efc6-46a3-ae9f-f023fa601050/id-preview-da71e480--efd090ab-20ee-4e81-ac01-320827500862.lovable.app-1782247273195.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/493d850f-efc6-46a3-ae9f-f023fa601050/id-preview-da71e480--efd090ab-20ee-4e81-ac01-320827500862.lovable.app-1782247273195.png" },
     ],
     links: [
       {
