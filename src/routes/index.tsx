@@ -73,7 +73,7 @@ function Nav() {
   return (
     <header className="relative z-20 mx-auto flex max-w-6xl items-center justify-between px-6 pt-6">
       <a href="#top" className="flex items-center gap-2">
-        <img src={logo} alt={BRAND} className="h-12 w-auto md:h-14" width={440} height={56} />
+        <img src={logo} alt={BRAND} className="h-9 w-auto md:h-10" width={320} height={40} />
       </a>
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
         <a href="#inside" className="transition hover:text-foreground">What's inside</a>
