@@ -44,6 +44,7 @@ export type Database = {
           full_name: string
           id: string
           notes: string | null
+          paid_at: string | null
           payment_reference: string
           product: string
           status: string
@@ -56,6 +57,7 @@ export type Database = {
           full_name: string
           id?: string
           notes?: string | null
+          paid_at?: string | null
           payment_reference: string
           product?: string
           status?: string
@@ -68,6 +70,7 @@ export type Database = {
           full_name?: string
           id?: string
           notes?: string | null
+          paid_at?: string | null
           payment_reference?: string
           product?: string
           status?: string
