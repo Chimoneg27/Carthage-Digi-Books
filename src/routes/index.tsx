@@ -379,7 +379,7 @@ function Footer() {
         <span className="font-mono text-sm tracking-tight opacity-70">carthagedigibooks</span>
         <div className="flex items-center gap-6">
           <Link to="/about" className="hover:text-foreground">About</Link>
-          <Link to="/refund-policy" className="hover:text-foreground">Refund policy</Link>
+          <Link to="/about" hash="refunds" className="hover:text-foreground">Refund policy</Link>
         </div>
         <p className="font-mono">© {new Date().getFullYear()} {BRAND}. All rights reserved.</p>
       </div>
