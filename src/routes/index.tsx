@@ -72,14 +72,14 @@ function Landing() {
 function Nav() {
   return (
     <header className="relative z-20 mx-auto flex max-w-6xl items-center justify-between px-6 pt-6">
-      <a href="#top" className="text-base font-medium tracking-tight md:text-lg">
+      <Link to="/" className="text-base font-medium tracking-tight md:text-lg">
         carthagedigibooks
-      </a>
+      </Link>
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
         <a href="#inside" className="transition hover:text-foreground">What's inside</a>
         <a href="#checkout" className="transition hover:text-foreground">Buy</a>
         <Link to="/about" className="transition hover:text-foreground">About</Link>
-        <Link to="/refund-policy" className="transition hover:text-foreground">Refunds</Link>
+        <Link to="/about" hash="refunds" className="transition hover:text-foreground">Refunds</Link>
       </nav>
       <a
         href="#checkout"
