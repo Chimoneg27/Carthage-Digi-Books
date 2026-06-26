@@ -79,7 +79,6 @@ function Nav() {
         <a href="#inside" className="transition hover:text-foreground">What's inside</a>
         <a href="#checkout" className="transition hover:text-foreground">Buy</a>
         <Link to="/about" className="transition hover:text-foreground">About</Link>
-        <Link to="/about" hash="refunds" className="transition hover:text-foreground">Refunds</Link>
       </nav>
       <a
         href="#checkout"
