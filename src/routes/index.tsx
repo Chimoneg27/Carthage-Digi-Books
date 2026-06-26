@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -78,6 +78,8 @@ function Nav() {
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
         <a href="#inside" className="transition hover:text-foreground">What's inside</a>
         <a href="#checkout" className="transition hover:text-foreground">Buy</a>
+        <Link to="/about" className="transition hover:text-foreground">About</Link>
+        <Link to="/refund-policy" className="transition hover:text-foreground">Refunds</Link>
       </nav>
       <a
         href="#checkout"
@@ -375,6 +377,10 @@ function Footer() {
     <footer className="border-t border-border px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-xs text-muted-foreground md:flex-row">
         <span className="font-mono text-sm tracking-tight opacity-70">carthagedigibooks</span>
+        <div className="flex items-center gap-6">
+          <Link to="/about" className="hover:text-foreground">About</Link>
+          <Link to="/refund-policy" className="hover:text-foreground">Refund policy</Link>
+        </div>
         <p className="font-mono">© {new Date().getFullYear()} {BRAND}. All rights reserved.</p>
       </div>
     </footer>
