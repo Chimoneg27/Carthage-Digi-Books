@@ -13,7 +13,8 @@ import {
   Lock,
 } from "lucide-react";
 
-import ebookHero from "@/assets/ebook-hero.jpg";
+import ebookHeroAsset from "@/assets/book-cover.png.asset.json";
+const ebookHero = ebookHeroAsset.url;
 import { Toaster } from "@/components/ui/sonner";
 import { submitLead, startPayfastCheckout } from "@/lib/leads.functions";
 
