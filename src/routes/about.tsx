@@ -143,7 +143,6 @@ function SiteNav() {
         <Link to="/" hash="inside" className="transition hover:text-foreground">What's inside</Link>
         <Link to="/" hash="checkout" className="transition hover:text-foreground">Buy</Link>
         <Link to="/about" className="transition hover:text-foreground" activeOptions={{ exact: true }}>About</Link>
-        <Link to="/about" hash="refunds" className="transition hover:text-foreground">Refunds</Link>
       </nav>
       <Link to="/" hash="checkout" className="btn-primary inline-flex items-center gap-2 px-5 py-2 text-sm">
         Get the book
