@@ -77,7 +77,7 @@ function Nav() {
         carthagedigibooks
       </Link>
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-        <a href="#inside" className="transition hover:text-foreground">What's inside</a>
+        <Link to="/books" className="transition hover:text-foreground">Books</Link>
         <a href="#checkout" className="transition hover:text-foreground">Buy</a>
         <Link to="/about" className="transition hover:text-foreground">About</Link>
       </nav>
