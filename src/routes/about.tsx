@@ -140,7 +140,7 @@ function SiteNav() {
         carthagedigibooks
       </Link>
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-        <Link to="/" hash="inside" className="transition hover:text-foreground">What's inside</Link>
+        <Link to="/books" className="transition hover:text-foreground" activeOptions={{ exact: true }}>Books</Link>
         <Link to="/" hash="checkout" className="transition hover:text-foreground">Buy</Link>
         <Link to="/about" className="transition hover:text-foreground" activeOptions={{ exact: true }}>About</Link>
       </nav>
@@ -157,6 +157,7 @@ function SiteFooter() {
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-xs text-muted-foreground md:flex-row">
         <span className="font-mono text-sm tracking-tight opacity-70">carthagedigibooks</span>
         <div className="flex items-center gap-6">
+          <Link to="/books" className="hover:text-foreground">Books</Link>
           <Link to="/about" className="hover:text-foreground">About</Link>
           <Link to="/about" hash="refunds" className="hover:text-foreground">Refund policy</Link>
         </div>

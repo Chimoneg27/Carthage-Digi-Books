@@ -77,7 +77,7 @@ function Nav() {
         carthagedigibooks
       </Link>
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-        <a href="#inside" className="transition hover:text-foreground">What's inside</a>
+        <Link to="/books" className="transition hover:text-foreground">Books</Link>
         <a href="#checkout" className="transition hover:text-foreground">Buy</a>
         <Link to="/about" className="transition hover:text-foreground">About</Link>
       </nav>
@@ -378,6 +378,7 @@ function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-xs text-muted-foreground md:flex-row">
         <span className="font-mono text-sm tracking-tight opacity-70">carthagedigibooks</span>
         <div className="flex items-center gap-6">
+          <Link to="/books" className="hover:text-foreground">Books</Link>
           <Link to="/about" className="hover:text-foreground">About</Link>
           <Link to="/about" hash="refunds" className="hover:text-foreground">Refund policy</Link>
         </div>

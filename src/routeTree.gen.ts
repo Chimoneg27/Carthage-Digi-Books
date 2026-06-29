@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as BooksRouteImport } from './routes/books'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicPayfastItnRouteImport } from './routes/api/public/payfast-itn'
 
+const BooksRoute = BooksRouteImport.update({
+  id: '/books',
+  path: '/books',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -32,35 +38,46 @@ const ApiPublicPayfastItnRoute = ApiPublicPayfastItnRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/books': typeof BooksRoute
   '/api/public/payfast-itn': typeof ApiPublicPayfastItnRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/books': typeof BooksRoute
   '/api/public/payfast-itn': typeof ApiPublicPayfastItnRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/books': typeof BooksRoute
   '/api/public/payfast-itn': typeof ApiPublicPayfastItnRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/api/public/payfast-itn'
+  fullPaths: '/' | '/about' | '/books' | '/api/public/payfast-itn'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/api/public/payfast-itn'
-  id: '__root__' | '/' | '/about' | '/api/public/payfast-itn'
+  to: '/' | '/about' | '/books' | '/api/public/payfast-itn'
+  id: '__root__' | '/' | '/about' | '/books' | '/api/public/payfast-itn'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  BooksRoute: typeof BooksRoute
   ApiPublicPayfastItnRoute: typeof ApiPublicPayfastItnRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/books': {
+      id: '/books'
+      path: '/books'
+      fullPath: '/books'
+      preLoaderRoute: typeof BooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -88,18 +105,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  BooksRoute: BooksRoute,
   ApiPublicPayfastItnRoute: ApiPublicPayfastItnRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
