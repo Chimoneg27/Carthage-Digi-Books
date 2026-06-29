@@ -140,7 +140,7 @@ function SiteNav() {
         carthagedigibooks
       </Link>
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-        <Link to="/" hash="inside" className="transition hover:text-foreground">What's inside</Link>
+        <Link to="/books" className="transition hover:text-foreground" activeOptions={{ exact: true }}>Books</Link>
         <Link to="/" hash="checkout" className="transition hover:text-foreground">Buy</Link>
         <Link to="/about" className="transition hover:text-foreground" activeOptions={{ exact: true }}>About</Link>
       </nav>
