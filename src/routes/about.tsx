@@ -157,6 +157,7 @@ function SiteFooter() {
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-xs text-muted-foreground md:flex-row">
         <span className="font-mono text-sm tracking-tight opacity-70">carthagedigibooks</span>
         <div className="flex items-center gap-6">
+          <Link to="/books" className="hover:text-foreground">Books</Link>
           <Link to="/about" className="hover:text-foreground">About</Link>
           <Link to="/about" hash="refunds" className="hover:text-foreground">Refund policy</Link>
         </div>
